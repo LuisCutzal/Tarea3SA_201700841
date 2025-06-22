@@ -60,3 +60,72 @@
 ![Busqueda por caracter](./img/busqueda_caracter.png)
 
 [Regresar](../README.md)
+
+
+# Datos de prueba
+
+```sql
+
+INSERT INTO CI (Name, Description, SerialNumber, Version, AcquisitionDate, CurrentStatus,
+    PhysicalLocation, Owner, SecurityLevel, Compliance, ConfigStatus, LicenseNumber,
+    ExpirationDate, TypeId, Environment)
+VALUES (
+    'Servidor2', 'Servidor de archivos compartidos', 'SN234567', 'v2.0', '2021-12-01', 'Activo',
+    'Data Center B', 'Equipo de Infraestructura', 'Medio', 'Cumple', 'Aprobado', 'DEF789',
+    '2024-12-01', (SELECT Id FROM CIType WHERE Name = 'Hardware'), 'DEV'
+);
+
+INSERT INTO CI (Name, Description, Version, AcquisitionDate, CurrentStatus,
+    PhysicalLocation, Owner, SecurityLevel, Compliance, ConfigStatus, LicenseNumber,
+    ExpirationDate, TypeId, Environment)
+VALUES (
+    'Base de Datos1', 'Base de datos de clientes', 'v12.3', '2020-10-15', 'Activo',
+    'Rack DB1', 'Equipo DBA', 'Alto', 'Cumple', 'Aprobado', 'GHI012',
+    '2025-03-30', (SELECT Id FROM CIType WHERE Name = 'Base de Datos'), 'QA'
+);
+
+INSERT INTO CI (Name, Description, Version, AcquisitionDate, CurrentStatus,
+    PhysicalLocation, Owner, SecurityLevel, Compliance, ConfigStatus, LicenseNumber,
+    ExpirationDate, TypeId, Environment)
+VALUES (
+    'Aplicación Web', 'Sistema de gestión de usuarios', 'v1.2.3', '2022-09-20', 'Activo',
+    'Servidor2', 'Equipo de Desarrollo', 'Medio', 'Cumple', 'Aprobado', 'JKL345',
+    '2025-06-01', (SELECT Id FROM CIType WHERE Name = 'Software'), 'PROD'
+);
+
+INSERT INTO CI (Name, Description, SerialNumber, Version, AcquisitionDate, CurrentStatus,
+    PhysicalLocation, Owner, SecurityLevel, Compliance, ConfigStatus, LicenseNumber,
+    ExpirationDate, TypeId, Environment)
+VALUES (
+    'Switch-Core', 'Switch principal de red LAN', 'SN889900', 'v3.0', '2019-08-10', 'Activo',
+    'Rack Red Principal', 'Redes y Comunicaciones', 'Crítico', 'Cumple', 'Aprobado', 'MNO678',
+    '2026-08-01', (SELECT Id FROM CIType WHERE Name = 'Red'), 'DEV'
+);
+
+INSERT INTO CI (Name, Description, SerialNumber, Version, AcquisitionDate, CurrentStatus,
+    PhysicalLocation, Owner, SecurityLevel, Compliance, ConfigStatus, LicenseNumber,
+    ExpirationDate, TypeId, Environment)
+VALUES (
+    'Firewall', 'Firewall de perímetro', 'SN445566', 'v4.5', '2020-05-05', 'Activo',
+    'Rack Seguridad', 'Equipo Seguridad TI', 'Crítico', 'Cumple', 'Aprobado', 'PQR901',
+    '2025-05-01', (SELECT Id FROM CIType WHERE Name = 'Seguridad'), 'QA'
+);
+
+INSERT INTO CI (Name, Description, SerialNumber, Version, AcquisitionDate, CurrentStatus,
+    PhysicalLocation, Owner, SecurityLevel, Compliance, ConfigStatus, LicenseNumber,
+    ExpirationDate, TypeId, Environment)
+VALUES (
+    'Servidor DevOps', 'Servidor para integración continua', 'SN998877', 'v1.4', '2021-07-01', 'Activo',
+    'Rack DevOps', 'Equipo DevOps', 'Alto', 'Cumple', 'Aprobado', 'STU234',
+    '2024-09-01', (SELECT Id FROM CIType WHERE Name = 'Hardware'), 'DEV'
+);
+
+INSERT INTO CI (Name, Description, Version, AcquisitionDate, CurrentStatus,
+    PhysicalLocation, Owner, SecurityLevel, Compliance, ConfigStatus, LicenseNumber,
+    ExpirationDate, TypeId, Environment)
+VALUES (
+    'Repositorio Código', 'Repositorio central de código fuente', 'v3.1', '2022-11-01', 'Activo',
+    'Cloud Git Repo', 'Equipo Desarrollo', 'Medio', 'Cumple', 'Aprobado', 'VWX567',
+    '2025-11-01', (SELECT Id FROM CIType WHERE Name = 'Software'), 'PROD'
+);
+```
