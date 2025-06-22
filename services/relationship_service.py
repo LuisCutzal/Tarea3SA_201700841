@@ -4,7 +4,6 @@ from connection import get_db_connection
 ci_bp = Blueprint('ci_bp', __name__)
 
 # Obtener una relación específica por ID
-@ci_bp.route('/relationships/<int:relationship_id>', methods=['GET'])
 def get_relationship(relationship_id):
     conn = get_db_connection()
     if conn is None:
@@ -45,7 +44,6 @@ def get_relationship(relationship_id):
         conn.close()
 
 # Crear una nueva relación
-@ci_bp.route('/cis/<int:from_id>/relationships', methods=['POST'])
 def create_relationship(from_id):
     data = request.json
     to_id = data.get('to_id')
@@ -80,7 +78,6 @@ def create_relationship(from_id):
         conn.close()
 
 # Eliminar una relación por ID
-@ci_bp.route('/relationships/<int:relationship_id>', methods=['DELETE'])
 def delete_relationship(relationship_id):
     conn = get_db_connection()
     if conn is None:

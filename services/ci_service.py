@@ -9,13 +9,39 @@ def get_all_cis():
     if conn is None:
         return jsonify({'error': 'No se pudo conectar a la base de datos'}), 500
     cursor = conn.cursor()
+
+    # Leer filtros opcionales de query string
+    name_filter = request.args.get('name')
+    type_filter = request.args.get('type')
+    status_filter = request.args.get('status')
+    environment_filter = request.args.get('environment')
+
     query = """
         SELECT CI.Id, CI.Name, CI.Description, CI.CurrentStatus, CIType.Name AS TypeName, CI.Environment
         FROM CI
         JOIN CIType ON CI.TypeId = CIType.Id
     """
+    filters = []
+    params = []
+
+    if name_filter:
+        filters.append("CI.Name LIKE ?")
+        params.append(f"%{name_filter}%")
+    if type_filter:
+        filters.append("CIType.Name = ?")
+        params.append(type_filter)
+    if status_filter:
+        filters.append("CI.CurrentStatus = ?")
+        params.append(status_filter)
+    if environment_filter:
+        filters.append("CI.Environment = ?")
+        params.append(environment_filter)
+
+    if filters:
+        query += " WHERE " + " AND ".join(filters)
+
     try:
-        cursor.execute(query)
+        cursor.execute(query, params)
         rows = cursor.fetchall()
 
         cis = []
@@ -188,7 +214,7 @@ def update_ci(ci_id, data):
     description = data.get('description')
     status = data.get('status')
     changed_by = data.get('changed_by')  # puede ser un nombre o ID de usuario
-
+    environment = data.get('environment')
     if not changed_by:
         return jsonify({'error': 'El campo "changed_by" es obligatorio'}), 400
 
@@ -210,15 +236,16 @@ def update_ci(ci_id, data):
             cambios.append(f'Descripción: {row.Description} → {description}')
         if status and status != row.CurrentStatus:
             cambios.append(f'Estado: {row.CurrentStatus} → {status}')
-
+        if environment and environment != row.Environment:
+            cambios.append(f'Ambiente: {row.Environment} → {environment}')
         if not cambios:
             return jsonify({'message': 'No hay cambios para registrar'}), 200
 
         # Actualizar el CI
         cursor.execute("""
-            UPDATE CI SET Name = ?, Description = ?, CurrentStatus = ?, UpdatedAt = GETDATE()
+            UPDATE CI SET Name = ?, Description = ?, CurrentStatus = ?, Environment = ?, UpdatedAt = GETDATE()
             WHERE Id = ?
-        """, name, description, status, ci_id)
+        """, name, description, status, environment, ci_id)
 
         # Insertar en CIChangeLog
         cursor.execute("""
@@ -260,7 +287,7 @@ def get_ci_change_log(ci_id):
         return jsonify(changes), 200
 
     except Exception as e:
-        print("❌ Error al obtener el historial:", e)
+        print("Error al obtener el historial:", e)
         return jsonify({'error': 'Error al obtener historial'}), 500
 
     finally:

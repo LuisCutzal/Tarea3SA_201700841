@@ -14,10 +14,6 @@ def create_relationship(from_id):
     data = request.json
     return create_relationship_entry(from_id, data)
 
-@relationship_bp.route('/cis/<int:ci_id>/relationships', methods=['GET'])
-def get_relationships(ci_id):
-    return get_relationships_for_ci(ci_id)
-
 @relationship_bp.route('/relationships/<int:relationship_id>', methods=['GET'])
 def get_relationship(relationship_id):
     return get_relationship_by_id(relationship_id)
